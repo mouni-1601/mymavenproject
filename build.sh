@@ -1,30 +1,20 @@
 #!/bin/bash
 
-echo "Starting custom build script..."
-
-# Print current directory for debugging
+# Ensure Maven is available
 echo "Current directory: $(pwd)"
-
-# Run Maven clean and install to build the project
 echo "Running Maven clean install..."
-mvn clean install
 
-# Check the contents of the target directory
+# Run Maven using the full path
+/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/maven/bin/mvn clean install
+
+# Check for the JAR file after build
 echo "Listing contents of target directory:"
 ls -l target/
 
-# Check if the JAR file is created
-JAR_FILE=$(find target -type f -name "*.jar" | head -n 1)
-
-if [ -f "$JAR_FILE" ]; then
-    echo "JAR file found: $JAR_FILE"
+# Verify the JAR file
+JAR_FILE=$(find target -name "*.jar" -print -quit)
+if [ -z "$JAR_FILE" ]; then
+  echo "JAR file not found!"
 else
-    echo "JAR file not found!"
+  echo "JAR file found: $JAR_FILE"
 fi
-
-# Optionally, you can also print the path to the JAR file for confirmation
-echo "Path to JAR file: $JAR_FILE"
-
-# Additional tasks (e.g., copying or archiving the JAR file) can be done here
-
-echo "Build and test process completed."
