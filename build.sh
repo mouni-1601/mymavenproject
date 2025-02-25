@@ -15,6 +15,5 @@ echo "Running custom post-build tasks..."
 
 echo "Build and test process completed!"
 
-echo "Listing contents of target directory:"
-ls -l target/
+
 
